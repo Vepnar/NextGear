@@ -5,7 +5,20 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nextgear.settings')
+
+    # Default environ
+    default_settings = {
+        'SECRET_KEY': '*k88^mjs!#0tq&xm@_qvrq%(y$&eiaye6l6jmw65ugeq_e_@v)',
+        'DJANGO_SETTINGS_MODULE' : 'nextgear.settings',
+        'DEBUG' : 'True',
+        'SITE_DOMAIN' : 'localhost',
+        'ALLOWED_HOSTS' : '[\'127.0.0.1\']'
+    }
+
+    # Set default environ
+    for key, value in default_settings.items():
+        os.environ.setdefault(key, value)
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

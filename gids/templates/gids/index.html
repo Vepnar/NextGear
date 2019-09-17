@@ -1,0 +1,9 @@
+{% if channel_list %}
+    <ul>
+    {% for channel in channel_list %}
+        <li><a href="/info/{{ channel.id }}/">{{ channel.channel_title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No channels are available.</p>
+{% endif %}

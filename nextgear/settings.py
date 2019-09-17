@@ -11,6 +11,16 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
+
+def require_env(name):
+    # Raise an error if the environment variable isn't defined
+    value = os.getenv(name)
+    if value is None:
+        raise ImproperlyConfigured('Required environment variable "{}" is not set.'.format(name))
+    return value
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,17 +30,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*k88^mjs!#0tq&xm@_qvrq%(y$&eiaye6l6jmw65ugeq_e_@v)'
+SECRET_KEY = require_env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(require_env('DEBUG'))
 
-ALLOWED_HOSTS = []
+# It is insecure I know
+ALLOWED_HOSTS =  eval(require_env('ALLOWED_HOSTS'),{"__builtins__":None},{})
 
+SITE_ID = require_env('SITE_DOMAIN')
 
 # Application definition
 
 INSTALLED_APPS = [
+    'gids.apps.GidsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,12 +87,9 @@ WSGI_APPLICATION = 'nextgear.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+    'default': {}}
 
+DATABASES['default'] = dj_database_url.config(conn_max_age=600,default='sqlite://./db.sqlite3')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -105,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True
 
