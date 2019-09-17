@@ -14,31 +14,8 @@ import os
 import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 
-def require_env(name):
-    # Raise an error if the environment variable isn't defined
-    value = os.getenv(name)
-    if value is None:
-        raise ImproperlyConfigured('Required environment variable "{}" is not set.'.format(name))
-    return value
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = require_env('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(require_env('DEBUG'))
-
-# It is insecure I know
-ALLOWED_HOSTS =  eval(require_env('ALLOWED_HOSTS'),{"__builtins__":None},{})
-
-SITE_ID = require_env('SITE_DOMAIN')
 
 # Application definition
 
@@ -81,15 +58,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'nextgear.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {}}
-
-DATABASES['default'] = dj_database_url.config(conn_max_age=600,default='sqlite://./db.sqlite3')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
