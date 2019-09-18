@@ -1,9 +1,42 @@
-{% if channel_list %}
-    <ul>
-    {% for channel in channel_list %}
-        <li><a href="/info/{{ channel.id }}/">{{ channel.channel_title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No channels are available.</p>
-{% endif %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>W3.CSS Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        function redirect(id){
+            window.location.href = "/gids/"+id+"/info";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="w3-container">
+        {% if channel_list %}
+        <h5>Channels</h5>
+        <table class="w3-table w3-bordered w3-border w3-white">
+            <tr>
+                <th>Channel name</th>
+                <th>Channel</th>
+                <th>Channel type</th>
+            </tr>
+            {% for channel in channel_list %}
+            <tr class="w3-hover-gray{% if channel.channel_type == radio %} w3-blue {% endif%}" onclick="redirect({{channel.id}})">
+                <td>{{channel.title}}</td>
+                <td>{{channel.channel}}</td>
+                <td>{{channel.channel_type}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No channels are available.</p>
+        {% endif %}
+
+</body>
+
+</html>

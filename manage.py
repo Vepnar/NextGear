@@ -3,16 +3,21 @@
 import os
 import sys
 
+dev = True
 
 def main():
 
     # Default environ
     default_settings = {
-        'SECRET_KEY': '*k88^mjs!#0tq&xm@_qvrq%(y$&eiaye6l6jmw65ugeq_e_@v)',
-        'DJANGO_SETTINGS_MODULE' : 'nextgear.settings',
-        'DEBUG' : 'True',
-        'SITE_DOMAIN' : 'localhost',
-        'ALLOWED_HOSTS' : '[\'127.0.0.1\']'
+            'SECRET_KEY': '*k88^mjs!#0tq&xm@_qvrq%(y$&eiaye6l6jmw65ugeq_e_@v)',
+            'DJANGO_SETTINGS_MODULE' : 'nextgear.settings.staging',
+            'DEBUG' : 'True',
+            'SITE_DOMAIN' : 'localhost',
+            'ALLOWED_HOSTS' : '[\'127.0.0.1\']'
+    }
+    if dev:
+        default_settings = {
+            'DJANGO_SETTINGS_MODULE' : 'nextgear.settings.dev',
     }
 
     # Set default environ
